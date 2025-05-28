@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface FormData {
@@ -11,7 +11,7 @@ interface FormData {
   published: boolean;
 }
 
-export default function CreateContentPage() {
+function CreateContentForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const contentType = searchParams.get("type") as "IMAGE" | "ARTICLE" | null;
@@ -298,5 +298,20 @@ export default function CreateContentPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function CreateContentPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <CreateContentForm />
+    </Suspense>
   );
 }

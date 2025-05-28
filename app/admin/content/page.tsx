@@ -2,7 +2,7 @@
 
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
@@ -21,7 +21,7 @@ interface ContentType {
   createdAt: string;
 }
 
-const ContentPage = () => {
+const ContentManagement = () => {
   const [content, setContent] = useState<ContentType[]>([]);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
@@ -282,6 +282,23 @@ const ContentPage = () => {
         )}
       </div>
     </AdminLayout>
+  );
+};
+
+const ContentPage = () => {
+  return (
+    <Suspense fallback={
+      <AdminLayout>
+        <div className="flex items-center justify-center min-h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading content...</p>
+          </div>
+        </div>
+      </AdminLayout>
+    }>
+      <ContentManagement />
+    </Suspense>
   );
 };
 

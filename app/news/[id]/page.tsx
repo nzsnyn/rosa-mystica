@@ -3,6 +3,7 @@
 import MainLayout from "@/components/layouts/MainLayout";
 import Navbar from "@/components/navbar/Navbar";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,7 +19,10 @@ interface ContentType {
   type: "IMAGE" | "ARTICLE";
 }
 
-const NewsDetailPage = ({ params }: { params: { id: string } }) => {
+const NewsDetailPage = () => {
+  const params = useParams();
+  const id = params.id as string;
+  
   const [article, setArticle] = useState<ContentType | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +32,7 @@ const NewsDetailPage = ({ params }: { params: { id: string } }) => {
 
   const fetchArticle = async () => {
     try {
-      const response = await fetch(`/api/content/${params.id}`);
+      const response = await fetch(`/api/content/${id}`);
       if (response.ok) {
         const data = await response.json();
         // Only show if published and is an article
