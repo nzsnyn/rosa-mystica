@@ -1,6 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/layouts/AdminLayout";
+import StorageStats from "@/components/admin/StorageStats";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -123,23 +124,62 @@ const AdminDashboard = () => {
               </Link>
             </div>
           </div>
+        </div>        {/* Storage Stats Widget */}
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Storage Overview</h2>
+          <StorageStats />
         </div>
-
-        {/* Quick Actions */}
+          {/* Storage Tools */}
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Storage Tools</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Test Local Upload</h3>
+              <p className="text-gray-600 mb-4">
+                Test the local file upload functionality to ensure your storage system is working properly.
+              </p>
+              <Link
+                href="/admin/content/create?type=IMAGE"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+              >
+                Test Upload
+              </Link>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Migrate ImageKit Images</h3>
+              <p className="text-gray-600 mb-4">
+                Migration functionality has been disabled since ImageKit integration has been removed.
+              </p>
+              <Link
+                href="/admin/image-migration"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-gray-100 cursor-not-allowed"
+              >
+                Migration Tool (Disabled)
+              </Link>
+            </div>
+          </div>
+        </div>{/* Quick Actions */}
         <div className="mt-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <Link
-              href="/admin/content/new?type=IMAGE"
+              href="/admin/content/create?type=IMAGE"
               className="block bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-4 rounded-md font-medium transition-colors"
             >
               Upload New Image
             </Link>
             <Link
-              href="/admin/content/new?type=ARTICLE"
+              href="/admin/content/create?type=ARTICLE"
               className="block bg-green-600 hover:bg-green-700 text-white text-center px-6 py-4 rounded-md font-medium transition-colors"
             >
               Create New Article
+            </Link>
+            <Link
+              href="/admin/image-migration"
+              className="block bg-purple-600 hover:bg-purple-700 text-white text-center px-6 py-4 rounded-md font-medium transition-colors"
+            >
+              Migrate Images
             </Link>
           </div>
         </div>

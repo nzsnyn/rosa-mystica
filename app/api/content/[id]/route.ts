@@ -1,15 +1,15 @@
 import { prisma } from "@/lib/db";
+import { saveLocalFile, deleteLocalFile } from "@/lib/file-storage";
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, unlink } from "fs/promises";
-import path from "path";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params;
     const content = await prisma.content.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!content) {
@@ -27,14 +27,15 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params;
     const contentType = request.headers.get("content-type");
     
     // Get existing content first
     const existingContent = await prisma.content.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingContent) {
@@ -53,37 +54,42 @@ export async function PUT(
         title,
         description,
         published,
-      };
+      };      if (file) {
+        // Check file size (1MB = 1024 * 1024 bytes)
+        const maxSize = 1 * 1024 * 1024; // 1MB
+        if (file.size > maxSize) {
+          return NextResponse.json({ 
+            error: `File size must be less than 1MB. Uploaded file is ${(file.size / 1024 / 1024).toFixed(2)}MB` 
+          }, { status: 400 });
+        }
 
-      if (file) {
-        // Remove old file if it exists
-        if (existingContent.filename) {
-          const oldFilePath = path.join(process.cwd(), "public/uploads", existingContent.filename);
+        // Delete old file from local storage if it exists
+        if (existingContent.path) {
           try {
-            await unlink(oldFilePath);
+            await deleteLocalFile(existingContent.path);
           } catch (error) {
-            // File might not exist, continue
+            console.warn("Could not delete old file:", error);
           }
         }
 
-        // Save new file
+        // Save new file to local storage
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
-        const filename = `${Date.now()}_${file.name}`;
-        const filepath = path.join(process.cwd(), "public/uploads", filename);
-        await writeFile(filepath, buffer);
+        
+        const fileInfo = await saveLocalFile(buffer, file.name);
 
         updateData = {
           ...updateData,
-          filename,
-          path: `/uploads/${filename}`,
-          size: file.size,
+          filename: fileInfo.filename,
+          path: fileInfo.path,
+          size: fileInfo.size,
           mimeType: file.type,
+          // Clear any ImageKit data that might exist
+          imagekitFileId: null,
+          imagekitPath: null,
         };
-      }
-
-      const updatedContent = await prisma.content.update({
-        where: { id: params.id },
+      }const updatedContent = await prisma.content.update({
+        where: { id },
         data: updateData,
       });
 
@@ -93,7 +99,7 @@ export async function PUT(
       const { title, content, excerpt, description, published } = await request.json();
 
       const updatedContent = await prisma.content.update({
-        where: { id: params.id },
+        where: { id },
         data: {
           title,
           description,
@@ -116,12 +122,13 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params;
     // Get existing content to clean up files
     const existingContent = await prisma.content.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingContent) {
@@ -130,17 +137,14 @@ export async function DELETE(
 
     // Delete the database record first
     await prisma.content.delete({
-      where: { id: params.id },
-    });
-
-    // Clean up file if it's an image
-    if (existingContent.type === "IMAGE" && existingContent.filename) {
-      const filePath = path.join(process.cwd(), "public/uploads", existingContent.filename);
+      where: { id },
+    });    // Clean up file if it's an image
+    if (existingContent.type === "IMAGE" && existingContent.path) {
       try {
-        await unlink(filePath);
+        await deleteLocalFile(existingContent.path);
       } catch (error) {
-        // File might not exist, but don't fail the deletion
-        console.warn("Could not delete file:", filePath);
+        // Don't fail the deletion if file cleanup fails
+        console.warn("Could not delete local file:", existingContent.path, error);
       }
     }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiHistoryLine } from "react-icons/ri";
 import { LuCalendarClock } from "react-icons/lu";
 import { PiTargetLight, PiEraserBold } from "react-icons/pi";
@@ -11,13 +11,36 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { BsPeople } from "react-icons/bs";
 import { MdOutlineMessage } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
+import Image from "next/image";
 
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/navbar/Footer";
+import ImageGallery from "@/components/ImageGallery";
+import ErrorBoundaryImage from "@/components/ErrorBoundaryImage";
+import { getThumbnailUrl, getFullSizeUrl } from "@/lib/image-utils";
+
+interface ImageContent {
+  id: string;
+  title: string;
+  description?: string;
+  path: string;
+  imagekitPath?: string | null;
+  type: "IMAGE";
+  published: boolean;
+  createdAt: string;
+}
 
 export default function Home() {
   // State untuk mengelola hover effect
   const [isHovering, setIsHovering] = useState(false);
+
+  // Images state
+  const [images, setImages] = useState<ImageContent[]>([]);
+  const [imagesLoading, setImagesLoading] = useState(true);
+
+  // Gallery modal state
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Contact form state
   const [formData, setFormData] = useState({
@@ -25,6 +48,27 @@ export default function Home() {
     email: "",
     message: "",
   });
+
+  // Fetch images from API
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await fetch('/api/content?type=IMAGE');
+        if (response.ok) {
+          const data = await response.json();
+          // Filter only published images and limit to 6
+          const publishedImages = data.filter((img: ImageContent) => img.published).slice(0, 6);
+          setImages(publishedImages);
+        }
+      } catch (error) {
+        console.error('Failed to fetch images:', error);
+      } finally {
+        setImagesLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -42,6 +86,22 @@ export default function Home() {
       email: "",
       message: "",
     });
+  };
+
+  // Handle image click to open gallery
+  const handleImageClick = (index: number) => {
+    setCurrentImageIndex(index);
+    setIsGalleryOpen(true);
+  };
+
+  // Handle gallery navigation
+  const handleGalleryNavigate = (index: number) => {
+    setCurrentImageIndex(index);
+  };
+
+  // Handle gallery close
+  const handleGalleryClose = () => {
+    setIsGalleryOpen(false);
   };
 
   const cardItems = [
@@ -142,23 +202,57 @@ export default function Home() {
         </h1>
       </div>
 
-      {/* Dokumkentasi */}
+      {/* Dokumentasi */}
       <h1 className="text-center font-cormorant font-bold text-5xl my-14">
         Dokumentasi Gua Maria Rosa Mystica
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-11/12 mx-auto mt-10 mb-20">
-        {Array(6)
-          .fill(null)
-          .map((_, index) => (
+        {imagesLoading ? (
+          // Loading skeleton
+          Array(6)
+            .fill(null)
+            .map((_, index) => (
+              <div
+                key={index}
+                className="w-full h-[300px] bg-gray-200 animate-pulse rounded-lg"
+              />
+            ))
+        ) : images.length > 0 ? (
+          // Display real images
+          images.map((image, index) => (
             <div
-              key={index}
-              className="w-full h-[300px] bg-gray-300 flex items-center justify-center shadow-md hover:shadow-lg transition-shadow duration-300"
+              key={image.id}
+              className="relative w-full h-[300px] bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group cursor-pointer border-2 border-gray-200"
+              onClick={() => handleImageClick(index)}
             >
-              <h3 className="font-cormorant font-bold text-2xl">
-                Dokumentasi {index + 1}
-              </h3>
+              <ErrorBoundaryImage
+                src={getThumbnailUrl(image.path, image.imagekitPath)}
+                alt={image.title}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                fallbackSrc="/placeholders/image-unavailable.svg"
+              />
+              <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-end">
+                <div className="p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="font-cormorant font-bold text-xl mb-2">
+                    {image.title}
+                  </h3>
+                  {image.description && (
+                    <p className="font-lora text-sm opacity-90">
+                      {image.description}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
-          ))}
+          ))
+        ) : (
+          // No images placeholder
+          <div className="col-span-full text-center py-12">
+            <div className="text-gray-500 text-lg">
+              Belum ada dokumentasi yang tersedia
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Informasi Donasi dengan React State */}
@@ -302,6 +396,15 @@ export default function Home() {
           ></iframe>
         </div>
       </div>
+
+      {/* Image Gallery Modal */}
+      <ImageGallery
+        images={images}
+        isOpen={isGalleryOpen}
+        currentIndex={currentImageIndex}
+        onClose={handleGalleryClose}
+        onNavigate={handleGalleryNavigate}
+      />
 
       <Footer />
     </div>

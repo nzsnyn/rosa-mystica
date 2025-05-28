@@ -107,10 +107,9 @@ const ContentPage = () => {
   };
 
   const getCreateButton = () => {
-    if (typeFilter === "IMAGE") {
-      return (
+    if (typeFilter === "IMAGE") {      return (
         <Link
-          href="/admin/content/new?type=IMAGE"
+          href="/admin/content/create?type=IMAGE"
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
         >
           Upload New Image
@@ -118,9 +117,8 @@ const ContentPage = () => {
       );
     }
     if (typeFilter === "ARTICLE") {
-      return (
-        <Link
-          href="/admin/content/new?type=ARTICLE"
+      return (        <Link
+          href="/admin/content/create?type=ARTICLE"
           className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
         >
           Create New Article
@@ -129,14 +127,13 @@ const ContentPage = () => {
     }
     return (
       <div className="flex space-x-2">
-        <Link
-          href="/admin/content/new?type=IMAGE"
+        <Link          href="/admin/content/create?type=IMAGE"
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
         >
           Upload Image
         </Link>
         <Link
-          href="/admin/content/new?type=ARTICLE"
+          href="/admin/content/create?type=ARTICLE"
           className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
         >
           Create Article

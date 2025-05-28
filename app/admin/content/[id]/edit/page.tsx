@@ -71,10 +71,19 @@ const EditContentPage = () => {
       [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value
     }));
   };
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      const maxSize = 1 * 1024 * 1024; // 1MB in bytes
+      
+      if (selectedFile.size > maxSize) {
+        alert(`File size must be less than 1MB. Selected file is ${(selectedFile.size / 1024 / 1024).toFixed(2)}MB`);
+        e.target.value = ''; // Clear the input
+        setFile(null);
+        return;
+      }
+      
+      setFile(selectedFile);
     }
   };
 
@@ -190,10 +199,9 @@ const EditContentPage = () => {
                     </div>
                   </div>
                 )}
-                
-                <div>
+                  <div>
                   <label htmlFor="file" className="block text-sm font-medium text-gray-700">
-                    Replace Image (optional)
+                    Replace Image (optional) <span className="text-gray-500">(Max 1MB)</span>
                   </label>
                   <input
                     type="file"
@@ -202,8 +210,8 @@ const EditContentPage = () => {
                     onChange={handleFileChange}
                     className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
-                  <p className="mt-1 text-sm text-gray-500">
-                    Leave empty to keep current image
+                  <p className="mt-1 text-xs text-gray-500">
+                    Leave empty to keep current image. Supported formats: JPG, PNG, GIF. Maximum file size: 1MB
                   </p>
                 </div>
               </>

@@ -26,6 +26,10 @@ model Content {
   size        Int?
   mimeType    String?
   
+  // ImageKit specific fields
+  imagekitFileId String?   // ImageKit file ID for deletion
+  imagekitPath   String?   // ImageKit file path for URL generation
+  
   // For article content
   content     String?
   excerpt     String?
