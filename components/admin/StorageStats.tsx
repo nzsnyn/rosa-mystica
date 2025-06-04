@@ -46,7 +46,7 @@ export default function StorageStats() {
   if (error) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Storage Statistics</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">Statistik Penyimpanan</h3>
         <div className="bg-red-50 p-3 rounded-md text-red-600">
           {error}
         </div>
@@ -60,16 +60,16 @@ export default function StorageStats() {
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-medium text-gray-900 mb-4">Storage Statistics</h3>
+      <h3 className="text-lg font-medium text-gray-900 mb-4">Statistik Penyimpanan</h3>
       
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="border rounded-md p-3 bg-blue-50">
           <div className="text-xl font-bold text-blue-700">{stats.totalImages}</div>
-          <div className="text-sm text-blue-600">Total Images</div>
+          <div className="text-sm text-blue-600">Total Gambar</div>
         </div>
         <div className="border rounded-md p-3 bg-green-50">
           <div className="text-xl font-bold text-green-700">{stats.totalSizeMB ? stats.totalSizeMB.toFixed(2) : '0.00'} MB</div>
-          <div className="text-sm text-green-600">Total Storage</div>
+          <div className="text-sm text-green-600">Total Penyimpanan</div>
         </div>
       </div>
       
@@ -81,12 +81,12 @@ export default function StorageStats() {
             </svg>
           </div>
           <div>
-            <p className="text-gray-800 font-medium">Local Storage</p>
-            <p className="text-xs text-gray-500">All images are stored locally</p>
+            <p className="text-gray-800 font-medium">Penyimpanan Lokal</p>
+            <p className="text-xs text-gray-500">Semua gambar disimpan secara lokal</p>
           </div>
         </div>
         <p className="text-sm text-gray-600 mt-2">
-          Images are stored in the application's public directory for simplicity and direct access.
+          Gambar disimpan di direktori public aplikasi untuk kemudahan dan akses langsung.
         </p>
       </div>
     </div>

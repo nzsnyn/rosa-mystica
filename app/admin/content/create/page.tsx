@@ -48,7 +48,7 @@ function CreateContentForm() {
       const maxSize = 1 * 1024 * 1024;
       
       if (selectedFile.size > maxSize) {
-        alert(`File size must be less than 1MB. Selected file is ${(selectedFile.size / 1024 / 1024).toFixed(2)}MB`);
+        alert(`Ukuran file harus kurang dari 1MB. File yang dipilih berukuran ${(selectedFile.size / 1024 / 1024).toFixed(2)}MB`);
         e.target.value = '';
         setFile(null);
         setPreviewUrl(null);
@@ -72,7 +72,7 @@ function CreateContentForm() {
     try {
       if (contentType === "IMAGE") {
         if (!file) {
-          alert("Please select an image file");
+          alert("Silakan pilih file gambar");
           setLoading(false);
           return;
         }
@@ -108,7 +108,7 @@ function CreateContentForm() {
       router.push(`/admin/content?type=${contentType}`);
     } catch (error) {
       console.error("Error creating content:", error);
-      alert(`Failed to create ${contentType?.toLowerCase() || 'content'}`);
+      alert(`Gagal membuat ${contentType === "IMAGE" ? "gambar" : "artikel"}`);
     } finally {
       setLoading(false);
     }
@@ -126,14 +126,14 @@ function CreateContentForm() {
                 onClick={() => router.push("/admin")}
                 className="text-blue-600 hover:text-blue-800 font-medium"
               >
-                ← Admin Dashboard
+                ← Panel Admin
               </button>
               <span className="text-gray-400">|</span>
               <button
                 onClick={() => router.push("/admin/content")}
                 className="text-blue-600 hover:text-blue-800 font-medium"
               >
-                Content Management
+                Manajemen Konten
               </button>
             </div>
           </div>
@@ -143,12 +143,12 @@ function CreateContentForm() {
       <div className="px-4 py-6 max-w-4xl mx-auto">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900">
-            Create New {contentType === "IMAGE" ? "Image" : "Article"}
+            Buat {contentType === "IMAGE" ? "Gambar" : "Artikel"} Baru
           </h1>
           <p className="text-gray-600">
             {contentType === "IMAGE" 
-              ? "Upload and manage images for your content using local storage" 
-              : "Create and publish articles for your website"
+              ? "Unggah dan kelola gambar untuk konten Anda menggunakan penyimpanan lokal" 
+              : "Buat dan publikasikan artikel untuk situs web Anda"
             }
           </p>
         </div>
@@ -156,7 +156,7 @@ function CreateContentForm() {
         <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow">
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-              Title *
+              Judul *
             </label>
             <input
               type="text"
@@ -166,13 +166,13 @@ function CreateContentForm() {
               onChange={handleInputChange}
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
-              placeholder={`Enter ${contentType?.toLowerCase()} title`}
+              placeholder={`Masukkan judul ${contentType === "IMAGE" ? "gambar" : "artikel"}`}
             />
           </div>
 
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-              Description
+              Deskripsi
             </label>
             <textarea
               id="description"
@@ -181,14 +181,14 @@ function CreateContentForm() {
               onChange={handleInputChange}
               rows={3}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
-              placeholder={`Enter ${contentType?.toLowerCase()} description`}
+              placeholder={`Masukkan deskripsi ${contentType === "IMAGE" ? "gambar" : "artikel"}`}
             />
           </div>
 
           {contentType === "IMAGE" && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Image File *
+                File Gambar *
               </label>
               <div className="space-y-4">
                 <div>
@@ -200,18 +200,18 @@ function CreateContentForm() {
                     className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
                   <p className="mt-1 text-xs text-gray-500">
-                    Maximum file size: 1MB. Supported formats: JPG, PNG, WebP, GIF
+                    Ukuran file maksimum: 1MB. Format yang didukung: JPG, PNG, WebP, GIF
                   </p>
                 </div>
 
                 {previewUrl && (
                   <div className="space-y-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                      <p className="text-sm font-medium text-gray-700 mb-2">Pratinjau:</p>
                       <div className="border rounded-lg p-4 bg-gray-50">
                         <img
                           src={previewUrl}
-                          alt="Preview"
+                          alt="Pratinjau"
                           className="max-w-md max-h-64 rounded-lg shadow-sm object-contain"
                         />
                       </div>
@@ -220,8 +220,8 @@ function CreateContentForm() {
                     {file && (
                       <div className="text-sm text-gray-600">
                         <p><strong>File:</strong> {file.name}</p>
-                        <p><strong>Size:</strong> {(file.size / 1024).toFixed(1)} KB</p>
-                        <p><strong>Type:</strong> {file.type}</p>
+                        <p><strong>Ukuran:</strong> {(file.size / 1024).toFixed(1)} KB</p>
+                        <p><strong>Tipe:</strong> {file.type}</p>
                       </div>
                     )}
                   </div>
@@ -234,7 +234,7 @@ function CreateContentForm() {
             <>
               <div>
                 <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700">
-                  Excerpt
+                  Ringkasan
                 </label>
                 <textarea
                   id="excerpt"
@@ -243,13 +243,13 @@ function CreateContentForm() {
                   onChange={handleInputChange}
                   rows={2}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
-                  placeholder="Brief summary of the article"
+                  placeholder="Ringkasan singkat artikel"
                 />
               </div>
 
               <div>
                 <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-                  Content *
+                  Konten *
                 </label>
                 <textarea
                   id="content"
@@ -259,7 +259,7 @@ function CreateContentForm() {
                   rows={10}
                   required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
-                  placeholder="Write your article content here..."
+                  placeholder="Tulis konten artikel Anda di sini..."
                 />
               </div>
             </>
@@ -275,7 +275,7 @@ function CreateContentForm() {
               className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
             <label htmlFor="published" className="ml-2 block text-sm text-gray-900">
-              Publish immediately
+              Publikasikan segera
             </label>
           </div>
 
@@ -285,14 +285,14 @@ function CreateContentForm() {
               onClick={() => router.push("/admin/content")}
               className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Cancel
+              Batal
             </button>
             <button
               type="submit"
               disabled={loading || (contentType === "IMAGE" && !file)}
               className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              {loading ? "Creating..." : `Create ${contentType === "IMAGE" ? "Image" : "Article"}`}
+              {loading ? "Membuat..." : `Buat ${contentType === "IMAGE" ? "Gambar" : "Artikel"}`}
             </button>
           </div>
         </form>
@@ -307,7 +307,7 @@ export default function CreateContentPage() {
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <p className="mt-4 text-gray-600">Memuat...</p>
         </div>
       </div>
     }>

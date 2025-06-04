@@ -20,7 +20,7 @@ export default function ImageMigrationPage() {
       const migrationResults = await migrateAllImagesToLocal();
       setResults(migrationResults);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan');
       console.error('Error migrating images:', err);
     } finally {
       setIsLoading(false);
@@ -38,7 +38,7 @@ export default function ImageMigrationPage() {
         ...prev, 
         [contentId]: { 
           success: false, 
-          message: err instanceof Error ? err.message : 'An error occurred' 
+          message: err instanceof Error ? err.message : 'Terjadi kesalahan' 
         } 
       }));
     } finally {
@@ -49,12 +49,12 @@ export default function ImageMigrationPage() {
   return (
     <AdminLayout>
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">ImageKit to Local Storage Migration</h1>
+        <h1 className="text-2xl font-bold mb-6">Migrasi ImageKit ke Penyimpanan Lokal</h1>
         
         <div className="mb-6">
           <p className="mb-4">
-            This tool helps you migrate images from ImageKit to local storage. It will download each image
-            from ImageKit and save it to the local filesystem, then update the database record.
+            Alat ini membantu Anda memigrasikan gambar dari ImageKit ke penyimpanan lokal. Alat ini akan mengunduh setiap gambar
+            dari ImageKit dan menyimpannya ke sistem berkas lokal, kemudian memperbarui catatan database.
           </p>
           
           <div className="bg-yellow-50 p-4 rounded-md border border-yellow-200 mb-4">
@@ -65,11 +65,11 @@ export default function ImageMigrationPage() {
                 </svg>
               </div>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800">Warning</h3>
+                <h3 className="text-sm font-medium text-yellow-800">Peringatan</h3>
                 <div className="mt-1 text-sm text-yellow-700">
                   <p>
-                    This migration will download all images from ImageKit and save them locally. This process may take some time
-                    depending on the number and size of images. Make sure you have enough disk space available.
+                    Migrasi ini akan mengunduh semua gambar dari ImageKit dan menyimpannya secara lokal. Proses ini mungkin memakan waktu
+                    tergantung pada jumlah dan ukuran gambar. Pastikan Anda memiliki ruang disk yang cukup.
                   </p>
                 </div>
               </div>
@@ -81,55 +81,55 @@ export default function ImageMigrationPage() {
             disabled={isLoading}
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md disabled:opacity-50"
           >
-            {isLoading ? 'Migrating...' : 'Migrate All Images'}
+            {isLoading ? 'Memigrasikan...' : 'Migrasikan Semua Gambar'}
           </button>
         </div>
         
         {error && (
           <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-md">
-            <p className="font-medium">Error:</p>
+            <p className="font-medium">Kesalahan:</p>
             <p>{error}</p>
           </div>
         )}
         
         {results && (
           <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Results Summary</h2>
+            <h2 className="text-xl font-semibold mb-4">Ringkasan Hasil</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-gray-50 p-4 rounded-md">
                 <div className="text-2xl font-bold">{results.summary.total}</div>
-                <div className="text-sm text-gray-500">Total Images</div>
+                <div className="text-sm text-gray-500">Total Gambar</div>
               </div>
               
               <div className="bg-green-50 p-4 rounded-md">
                 <div className="text-2xl font-bold text-green-600">{results.summary.success}</div>
-                <div className="text-sm text-gray-500">Successfully Migrated</div>
+                <div className="text-sm text-gray-500">Berhasil Dimigrasikan</div>
               </div>
               
               <div className="bg-red-50 p-4 rounded-md">
                 <div className="text-2xl font-bold text-red-600">{results.summary.failure}</div>
-                <div className="text-sm text-gray-500">Failed Migrations</div>
+                <div className="text-sm text-gray-500">Migrasi Gagal</div>
               </div>
               
               <div className="bg-blue-50 p-4 rounded-md">
                 <div className="text-2xl font-bold">{results.summary.successPercentage}%</div>
-                <div className="text-sm text-gray-500">Success Rate</div>
+                <div className="text-sm text-gray-500">Tingkat Keberhasilan</div>
               </div>
             </div>
             
-            <h2 className="text-xl font-semibold mb-4">Detailed Results</h2>
+            <h2 className="text-xl font-semibold mb-4">Hasil Rinci</h2>
             <div className="bg-white rounded-md shadow overflow-hidden">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Title
+                      Judul
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Details
+                      Detail
                     </th>
                   </tr>
                 </thead>
@@ -143,16 +143,16 @@ export default function ImageMigrationPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                           ${result.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                          {result.success ? 'Success' : 'Failed'}
+                          {result.success ? 'Berhasil' : 'Gagal'}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-sm text-gray-500">{result.message}</div>
                         {result.success && (
                           <div className="text-xs text-gray-500 mt-1">
-                            <div>Old path: {result.originalPath}</div>
-                            <div>New path: {result.newPath}</div>
-                            <div>Size: {(result.size / 1024).toFixed(2)} KB</div>
+                            <div>Jalur lama: {result.originalPath}</div>
+                            <div>Jalur baru: {result.newPath}</div>
+                            <div>Ukuran: {(result.size / 1024).toFixed(2)} KB</div>
                           </div>
                         )}
                       </td>

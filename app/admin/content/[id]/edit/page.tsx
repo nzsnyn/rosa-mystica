@@ -57,7 +57,7 @@ const EditContentPage = () => {
       });
     } catch (error) {
       console.error("Failed to fetch content:", error);
-      alert("Failed to load content");
+      alert("Gagal memuat konten");
       router.push("/admin/content");
     } finally {
       setLoading(false);
@@ -77,7 +77,7 @@ const EditContentPage = () => {
       const maxSize = 1 * 1024 * 1024; // 1MB in bytes
       
       if (selectedFile.size > maxSize) {
-        alert(`File size must be less than 1MB. Selected file is ${(selectedFile.size / 1024 / 1024).toFixed(2)}MB`);
+        alert(`Ukuran file harus kurang dari 1MB. File yang dipilih berukuran ${(selectedFile.size / 1024 / 1024).toFixed(2)}MB`);
         e.target.value = ''; // Clear the input
         setFile(null);
         return;
@@ -107,7 +107,7 @@ const EditContentPage = () => {
           body: formDataToSend,
         });
 
-        if (!response.ok) throw new Error("Failed to update image");
+        if (!response.ok) throw new Error("Gagal memperbarui gambar");
       } else {
         // Handle text-only update (article or image metadata only)
         const response = await fetch(`/api/content/${contentId}`, {
@@ -121,13 +121,13 @@ const EditContentPage = () => {
           }),
         });
 
-        if (!response.ok) throw new Error("Failed to update content");
+        if (!response.ok) throw new Error("Gagal memperbarui konten");
       }
 
       router.push(`/admin/content?type=${content?.type}`);
     } catch (error) {
       console.error("Error updating content:", error);
-      alert(`Failed to update ${content?.type.toLowerCase()}`);
+      alert(`Gagal memperbarui ${content?.type.toLowerCase()}`);
     } finally {
       setSaving(false);
     }
@@ -138,7 +138,7 @@ const EditContentPage = () => {
       <AdminLayout>
         <div className="px-4 py-6">
           <div className="flex justify-center items-center h-64">
-            <div className="text-lg text-gray-600">Loading...</div>
+            <div className="text-lg text-gray-600">Memuat...</div>
           </div>
         </div>
       </AdminLayout>
@@ -149,7 +149,7 @@ const EditContentPage = () => {
     return (
       <AdminLayout>
         <div className="px-4 py-6">
-          <div className="text-center text-red-600">Content not found</div>
+          <div className="text-center text-red-600">Konten tidak ditemukan</div>
         </div>
       </AdminLayout>
     );
@@ -160,7 +160,7 @@ const EditContentPage = () => {
       <div className="px-4 py-6">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900">
-            Edit {content.type === "IMAGE" ? "Image" : "Article"}
+            Ubah {content.type === "IMAGE" ? "Gambar" : "Artikel"}
           </h1>
         </div>
 
@@ -168,7 +168,7 @@ const EditContentPage = () => {
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                Title
+                Judul
               </label>
               <input
                 type="text"
@@ -186,7 +186,7 @@ const EditContentPage = () => {
                 {content.path && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Current Image
+                      Gambar Saat Ini
                     </label>
                     <div className="mb-4">
                       <Image
@@ -201,7 +201,7 @@ const EditContentPage = () => {
                 )}
                   <div>
                   <label htmlFor="file" className="block text-sm font-medium text-gray-700">
-                    Replace Image (optional) <span className="text-gray-500">(Max 1MB)</span>
+                    Ganti Gambar (opsional) <span className="text-gray-500">(Maks 1MB)</span>
                   </label>
                   <input
                     type="file"
@@ -211,7 +211,7 @@ const EditContentPage = () => {
                     className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
                   <p className="mt-1 text-xs text-gray-500">
-                    Leave empty to keep current image. Supported formats: JPG, PNG, GIF. Maximum file size: 1MB
+                    Biarkan kosong untuk mempertahankan gambar saat ini. Format yang didukung: JPG, PNG, GIF. Ukuran file maksimum: 1MB
                   </p>
                 </div>
               </>
@@ -219,7 +219,7 @@ const EditContentPage = () => {
 
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                Description
+                Deskripsi
               </label>
               <textarea
                 id="description"
@@ -235,7 +235,7 @@ const EditContentPage = () => {
               <>
                 <div>
                   <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700">
-                    Excerpt
+                    Ringkasan
                   </label>
                   <textarea
                     id="excerpt"
@@ -244,13 +244,13 @@ const EditContentPage = () => {
                     onChange={handleInputChange}
                     rows={2}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Brief description for article listings..."
+                    placeholder="Deskripsi singkat untuk daftar artikel..."
                   />
                 </div>
 
                 <div>
                   <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-                    Content
+                    Konten
                   </label>
                   <textarea
                     id="content"
@@ -260,7 +260,7 @@ const EditContentPage = () => {
                     required
                     rows={12}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Write your article content here..."
+                    placeholder="Tulis konten artikel Anda di sini..."
                   />
                 </div>
               </>
@@ -276,7 +276,7 @@ const EditContentPage = () => {
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label htmlFor="published" className="ml-2 block text-sm text-gray-900">
-                Published
+                Dipublikasi
               </label>
             </div>
 
@@ -286,14 +286,14 @@ const EditContentPage = () => {
                 onClick={() => router.back()}
                 className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                Cancel
+                Batal
               </button>
               <button
                 type="submit"
                 disabled={saving}
                 className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
               >
-                {saving ? "Saving..." : `Update ${content.type === "IMAGE" ? "Image" : "Article"}`}
+                {saving ? "Menyimpan..." : `Perbarui ${content.type === "IMAGE" ? "Gambar" : "Artikel"}`}
               </button>
             </div>
           </form>

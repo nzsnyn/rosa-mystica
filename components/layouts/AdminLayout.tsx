@@ -11,10 +11,10 @@ interface AdminLayoutProps {
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const pathname = usePathname();
   const navigation = [
-    { name: "Dashboard", href: "/admin" },
-    { name: "Content", href: "/admin/content" },
-    { name: "Images", href: "/admin/content?type=IMAGE" },
-    { name: "Articles", href: "/admin/content?type=ARTICLE" },
+    { name: "Panel Utama", href: "/admin" },
+    { name: "Konten", href: "/admin/content" },
+    { name: "Gambar", href: "/admin/content?type=IMAGE" },
+    { name: "Artikel", href: "/admin/content?type=ARTICLE" },
   ];
 
   return (
@@ -24,7 +24,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <h1 className="text-xl font-bold">Admin Panel</h1>
+                <h1 className="text-xl font-bold">Panel Admin</h1>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                 {navigation.map((item) => (
@@ -47,7 +47,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 href="/"
                 className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
               >
-                Back to Site
+                Kembali ke Situs
               </Link>
             </div>
           </div>

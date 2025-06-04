@@ -45,7 +45,7 @@ const ContentManagement = () => {
   };
 
   const deleteContent = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this content?")) return;
+    if (!confirm("Apakah Anda yakin ingin menghapus konten ini?")) return;
 
     try {
       const response = await fetch(`/api/content/${id}`, {
@@ -55,11 +55,11 @@ const ContentManagement = () => {
       if (response.ok) {
         setContent(content.filter((item) => item.id !== id));
       } else {
-        alert("Failed to delete content");
+        alert("Gagal menghapus konten");
       }
     } catch (error) {
       console.error("Failed to delete content:", error);
-      alert("Failed to delete content");
+      alert("Gagal menghapus konten");
     }
   };
 
@@ -84,11 +84,11 @@ const ContentManagement = () => {
           item.id === id ? { ...item, published: !published } : item
         ));
       } else {
-        alert("Failed to update content status");
+        alert("Gagal memperbarui status konten");
       }
     } catch (error) {
       console.error("Failed to update content status:", error);
-      alert("Failed to update content status");
+      alert("Gagal memperbarui status konten");
     }
   };
 
@@ -101,9 +101,9 @@ const ContentManagement = () => {
   };
 
   const getPageTitle = () => {
-    if (typeFilter === "IMAGE") return "Images";
-    if (typeFilter === "ARTICLE") return "Articles";
-    return "All Content";
+    if (typeFilter === "IMAGE") return "Gambar";
+    if (typeFilter === "ARTICLE") return "Artikel";
+    return "Semua Konten";
   };
 
   const getCreateButton = () => {
@@ -112,7 +112,7 @@ const ContentManagement = () => {
           href="/admin/content/create?type=IMAGE"
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
         >
-          Upload New Image
+          Unggah Gambar Baru
         </Link>
       );
     }
@@ -121,7 +121,7 @@ const ContentManagement = () => {
           href="/admin/content/create?type=ARTICLE"
           className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
         >
-          Create New Article
+          Buat Artikel Baru
         </Link>
       );
     }
@@ -130,13 +130,13 @@ const ContentManagement = () => {
         <Link          href="/admin/content/create?type=IMAGE"
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
         >
-          Upload Image
+          Unggah Gambar
         </Link>
         <Link
           href="/admin/content/create?type=ARTICLE"
           className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
         >
-          Create Article
+          Buat Artikel
         </Link>
       </div>
     );
@@ -146,7 +146,7 @@ const ContentManagement = () => {
     return (
       <AdminLayout>
         <div className="px-4 py-6">
-          <div className="animate-pulse">Loading content...</div>
+          <div className="animate-pulse">Memuat konten...</div>
         </div>
       </AdminLayout>
     );
@@ -165,7 +165,7 @@ const ContentManagement = () => {
                   !typeFilter ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
-                All
+                Semua
               </Link>
               <Link
                 href="/admin/content?type=IMAGE"
@@ -173,7 +173,7 @@ const ContentManagement = () => {
                   typeFilter === "IMAGE" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
-                Images
+                Gambar
               </Link>
               <Link
                 href="/admin/content?type=ARTICLE"
@@ -181,7 +181,7 @@ const ContentManagement = () => {
                   typeFilter === "ARTICLE" ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
-                Articles
+                Artikel
               </Link>
             </div>
           </div>
@@ -190,7 +190,7 @@ const ContentManagement = () => {
 
         {content.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-gray-500 text-lg">No content found</div>
+            <div className="text-gray-500 text-lg">Tidak ada konten ditemukan</div>
             {getCreateButton()}
           </div>
         ) : (
@@ -230,7 +230,7 @@ const ContentManagement = () => {
                               : "bg-gray-100 text-gray-800"
                           }`}
                         >
-                          {item.published ? "Published" : "Draft"}
+                          {item.published ? "Dipublikasi" : "Draf"}
                         </span>
                       </div>
                       {item.description && (
@@ -247,7 +247,7 @@ const ContentManagement = () => {
                         {item.type === "IMAGE" && item.size && (
                           <span className="mr-4">{formatFileSize(item.size)}</span>
                         )}
-                        Created: {new Date(item.createdAt).toLocaleDateString()}
+                        Dibuat: {new Date(item.createdAt).toLocaleDateString()}
                       </div>
                     </div>
                   </div>
@@ -260,19 +260,19 @@ const ContentManagement = () => {
                           : "bg-green-200 text-green-700 hover:bg-green-300"
                       }`}
                     >
-                      {item.published ? "Unpublish" : "Publish"}
+                      {item.published ? "Batalkan Publikasi" : "Publikasi"}
                     </button>
                     <Link
                       href={`/admin/content/${item.id}/edit`}
                       className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                     >
-                      Edit
+                      Ubah
                     </Link>
                     <button
                       onClick={() => deleteContent(item.id)}
                       className="text-red-600 hover:text-red-800 text-sm font-medium"
                     >
-                      Delete
+                      Hapus
                     </button>
                   </div>
                 </div>
@@ -292,7 +292,7 @@ const ContentPage = () => {
         <div className="flex items-center justify-center min-h-64">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading content...</p>
+            <p className="mt-4 text-gray-600">Memuat konten...</p>
           </div>
         </div>
       </AdminLayout>

@@ -41,7 +41,7 @@ const AdminDashboard = () => {
   return (
     <AdminLayout>
       <div className="px-4 py-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Panel Utama</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Content Overview Card */}
@@ -56,7 +56,7 @@ const AdminDashboard = () => {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Total Content</dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Total Konten</dt>
                   <dd className="text-lg font-medium text-gray-900">{stats.totalContent}</dd>
                 </dl>
               </div>
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
                 href="/admin/content"
                 className="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
               >
-                Manage All Content →
+                Kelola Semua Konten →
               </Link>
             </div>
           </div>
@@ -83,7 +83,7 @@ const AdminDashboard = () => {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Total Images</dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Total Gambar</dt>
                   <dd className="text-lg font-medium text-gray-900">{stats.totalImages}</dd>
                 </dl>
               </div>
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
                 href="/admin/content?type=IMAGE"
                 className="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
               >
-                Manage Images →
+                Kelola Gambar →
               </Link>
             </div>
           </div>
@@ -110,7 +110,7 @@ const AdminDashboard = () => {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Total Articles</dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Total Artikel</dt>
                   <dd className="text-lg font-medium text-gray-900">{stats.totalArticles}</dd>
                 </dl>
               </div>
@@ -120,66 +120,66 @@ const AdminDashboard = () => {
                 href="/admin/content?type=ARTICLE"
                 className="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
               >
-                Manage Articles →
+                Kelola Artikel →
               </Link>
             </div>
           </div>
         </div>        {/* Storage Stats Widget */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Storage Overview</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Ringkasan Penyimpanan</h2>
           <StorageStats />
         </div>
           {/* Storage Tools */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Storage Tools</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Alat Penyimpanan</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Test Local Upload</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Uji Unggah Lokal</h3>
               <p className="text-gray-600 mb-4">
-                Test the local file upload functionality to ensure your storage system is working properly.
+                Uji fungsionalitas unggah file lokal untuk memastikan sistem penyimpanan Anda bekerja dengan baik.
               </p>
               <Link
                 href="/admin/content/create?type=IMAGE"
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
               >
-                Test Upload
+                Uji Unggah
               </Link>
             </div>
             
             <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Migrate ImageKit Images</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Migrasi Gambar ImageKit</h3>
               <p className="text-gray-600 mb-4">
-                Migration functionality has been disabled since ImageKit integration has been removed.
+                Fungsionalitas migrasi telah dinonaktifkan karena integrasi ImageKit telah dihapus.
               </p>
               <Link
                 href="/admin/image-migration"
                 className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-gray-100 cursor-not-allowed"
               >
-                Migration Tool (Disabled)
+                Alat Migrasi (Dinonaktifkan)
               </Link>
             </div>
           </div>
         </div>{/* Quick Actions */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Aksi Cepat</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <Link
               href="/admin/content/create?type=IMAGE"
               className="block bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-4 rounded-md font-medium transition-colors"
             >
-              Upload New Image
+              Unggah Gambar Baru
             </Link>
             <Link
               href="/admin/content/create?type=ARTICLE"
               className="block bg-green-600 hover:bg-green-700 text-white text-center px-6 py-4 rounded-md font-medium transition-colors"
             >
-              Create New Article
+              Buat Artikel Baru
             </Link>
             <Link
               href="/admin/image-migration"
               className="block bg-purple-600 hover:bg-purple-700 text-white text-center px-6 py-4 rounded-md font-medium transition-colors"
             >
-              Migrate Images
+              Migrasi Gambar
             </Link>
           </div>
         </div>
