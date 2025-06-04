@@ -43,3 +43,20 @@ enum ContentType {
   IMAGE
   ARTICLE
 }
+
+model Donation {
+  id             String        @id @default(cuid())
+  name           String
+  city           String
+  amount         Int           // Amount in Rupiah (stored as integer)
+  proofImagePath String        // Path to uploaded proof image
+  status         DonationStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+enum DonationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}

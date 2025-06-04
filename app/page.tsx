@@ -17,6 +17,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/navbar/Footer";
 import ImageGallery from "@/components/ImageGallery";
 import ErrorBoundaryImage from "@/components/ErrorBoundaryImage";
+import DonationPopup from "@/components/DonationPopup";
 import { getThumbnailUrl, getFullSizeUrl } from "@/lib/image-utils";
 
 interface ImageContent {
@@ -41,6 +42,9 @@ export default function Home() {
   // Gallery modal state
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Donation popup state
+  const [isDonationPopupOpen, setIsDonationPopupOpen] = useState(false);
 
   // Contact form state
   const [formData, setFormData] = useState({
@@ -102,6 +106,15 @@ export default function Home() {
   // Handle gallery close
   const handleGalleryClose = () => {
     setIsGalleryOpen(false);
+  };
+
+  // Handle donation popup
+  const handleDonationClick = () => {
+    setIsDonationPopupOpen(true);
+  };
+
+  const handleDonationPopupClose = () => {
+    setIsDonationPopupOpen(false);
   };
 
   const cardItems = [
@@ -266,6 +279,7 @@ export default function Home() {
           } shadow-lg transition-all duration-300 ease-in-out flex items-center px-4 cursor-pointer`}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
+          onClick={handleDonationClick}
         >
           <CiCreditCard1 className="text-white text-2xl min-w-9 w-9" />
           <div className="ml-3">
@@ -404,6 +418,12 @@ export default function Home() {
         currentIndex={currentImageIndex}
         onClose={handleGalleryClose}
         onNavigate={handleGalleryNavigate}
+      />
+
+      {/* Donation Popup */}
+      <DonationPopup
+        isOpen={isDonationPopupOpen}
+        onClose={handleDonationPopupClose}
       />
 
       <Footer />
