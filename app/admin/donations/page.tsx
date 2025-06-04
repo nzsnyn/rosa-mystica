@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import AdminLayout from '@/components/layouts/AdminLayout';
+import AuthGuard from '@/components/auth/AuthGuard';
 import { FaEye, FaCheck, FaTimes } from 'react-icons/fa';
 import { IoRefresh } from 'react-icons/io5';
 import ErrorBoundaryImage from '@/components/ErrorBoundaryImage';
@@ -25,6 +26,14 @@ interface PaginationInfo {
 }
 
 export default function DonationsPage() {
+  return (
+    <AuthGuard>
+      <DonationsPageContent />
+    </AuthGuard>
+  );
+}
+
+function DonationsPageContent() {
   const [donations, setDonations] = useState<Donation[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('');

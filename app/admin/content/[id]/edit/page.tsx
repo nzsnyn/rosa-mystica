@@ -1,6 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/layouts/AdminLayout";
+import AuthGuard from "@/components/auth/AuthGuard";
 import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -303,4 +304,12 @@ const EditContentPage = () => {
   );
 };
 
-export default EditContentPage;
+const EditContentPageWithAuth = () => {
+  return (
+    <AuthGuard>
+      <EditContentPage />
+    </AuthGuard>
+  );
+};
+
+export default EditContentPageWithAuth;

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { useAuth } from "../auth/AuthContext";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -10,6 +11,8 @@ interface AdminLayoutProps {
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const pathname = usePathname();
+  const { logout } = useAuth();
+  
   const navigation = [
     { name: "Panel Utama", href: "/admin" },
     { name: "Konten", href: "/admin/content" },
@@ -17,6 +20,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     { name: "Artikel", href: "/admin/content?type=ARTICLE" },
     { name: "Donasi", href: "/admin/donations" },
   ];
+
+  const handleLogout = () => {
+    if (confirm('Apakah Anda yakin ingin keluar?')) {
+      logout();
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -43,13 +52,19 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 ))}
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center space-x-4">
               <Link
                 href="/"
                 className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Kembali ke Situs
               </Link>
+              <button
+                onClick={handleLogout}
+                className="text-red-500 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>

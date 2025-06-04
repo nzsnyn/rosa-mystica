@@ -2,6 +2,7 @@
 
 import AdminLayout from "@/components/layouts/AdminLayout";
 import StorageStats from "@/components/admin/StorageStats";
+import AuthGuard from "@/components/auth/AuthGuard";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -254,4 +255,12 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+const AdminDashboardWithAuth = () => {
+  return (
+    <AuthGuard>
+      <AdminDashboard />
+    </AuthGuard>
+  );
+};
+
+export default AdminDashboardWithAuth;
