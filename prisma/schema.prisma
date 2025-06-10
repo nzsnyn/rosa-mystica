@@ -37,6 +37,29 @@ model Content {
   published   Boolean     @default(false)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  
+  // Relations
+  comments    Comment[]
+}
+
+model Comment {
+  id          String      @id @default(cuid())
+  contentId   String      // Reference to the article
+  content     Content     @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  
+  // Anonymous user info
+  name        String      // Anonymous name
+  email       String?     // Optional email (not displayed publicly)
+  message     String      // Comment message
+  
+  // Admin reply
+  adminReply  String?     // Admin's reply to the comment
+  repliedAt   DateTime?   // When admin replied
+  
+  // Status and metadata
+  isApproved  Boolean     @default(false) // Admin can approve/hide comments
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
 enum ContentType {

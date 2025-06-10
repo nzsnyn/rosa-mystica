@@ -3,6 +3,8 @@
 import MainLayout from "@/components/layouts/MainLayout";
 import Navbar from "@/components/navbar/Navbar";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
+import CommentForm from "@/components/CommentForm";
+import CommentsList from "@/components/CommentsList";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
@@ -26,6 +28,7 @@ const NewsDetailPage = () => {
   
   const [article, setArticle] = useState<ContentType | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshComments, setRefreshComments] = useState(0);
 
   useEffect(() => {
     fetchArticle();
@@ -46,6 +49,10 @@ const NewsDetailPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCommentSubmitted = () => {
+    setRefreshComments(prev => prev + 1);
   };
 
   if (loading) {
@@ -132,6 +139,18 @@ const NewsDetailPage = () => {
               )}
             </div>
           </article>
+
+          {/* Comment Section */}
+          <div className="mt-8 space-y-6">
+            <CommentForm 
+              contentId={id} 
+              onCommentSubmitted={() => setRefreshComments(prev => prev + 1)} 
+            />
+            <CommentsList 
+              contentId={id} 
+              refreshTrigger={refreshComments} 
+            />
+          </div>
         </div>
       </MainLayout>
     </div>

@@ -18,6 +18,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     { name: "Konten", href: "/admin/content" },
     { name: "Gambar", href: "/admin/content?type=IMAGE" },
     { name: "Artikel", href: "/admin/content?type=ARTICLE" },
+    { name: "Komentar", href: "/admin/comments" },
     { name: "Donasi", href: "/admin/donations" },
   ];
 
