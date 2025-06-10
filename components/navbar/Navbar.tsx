@@ -108,12 +108,6 @@ const Navbar = () => {
       <div className="flex justify-center gap-2 md:gap-3 items-center mt-6 md:mt-4">
         <FaFacebookF className="text-white text-2xl md:text-3xl lg:text-4xl cursor-pointer w-10 h-10 md:w-12 md:h-12 border-2 border-white p-2 hover:bg-[#D4AF37] hover:border-[#D4AF37] transition-all duration-300 ease-in-out" />
         <FaInstagram className="text-white text-2xl md:text-3xl lg:text-4xl cursor-pointer w-10 h-10 md:w-12 md:h-12 border-2 border-white p-2 hover:bg-[#D4AF37] hover:border-[#D4AF37] transition-all duration-300 ease-in-out" />
-        <Link
-          href="/admin"
-          className="text-white text-xs px-2 py-1 border border-white rounded hover:bg-white hover:text-[#8B5E83] transition-all duration-300 ease-in-out"
-        >
-          Admin
-        </Link>
       </div>
     </div>
   );
