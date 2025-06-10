@@ -2,6 +2,8 @@
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import Image from 'next/image';
 
 interface MarkdownRendererProps {
@@ -12,13 +14,14 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
   return (
     <div className="prose prose-lg max-w-none">
       <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkBreaks]}
         components={{
           // Custom image component to use Next.js Image
-          img: ({ src, alt, ...props }) => {
+          img: ({ src, alt }) => {
             if (!src || typeof src !== 'string') return null;
             
             return (
-              <div className="my-8">
+              <span className="block my-8">
                 <Image
                   src={src}
                   alt={alt || 'Gambar artikel'}
@@ -31,11 +34,11 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
                   }}
                 />
                 {alt && alt !== 'Gambar' && (
-                  <p className="text-sm text-gray-500 text-center mt-3 italic font-medium">
+                  <em className="block text-sm text-gray-500 text-center mt-3 italic font-medium">
                     {alt}
-                  </p>
+                  </em>
                 )}
-              </div>
+              </span>
             );
           },
           // Custom paragraph component
