@@ -6,13 +6,25 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get("type"); // 'IMAGE', 'ARTICLE', or null for all
+    const limit = searchParams.get("limit"); // number of items to return
     
     const where = type ? { type: type as any } : {};
     
-    const content = await prisma.content.findMany({
+    // Build query options
+    const queryOptions: any = {
       where,
       orderBy: { createdAt: "desc" },
-    });
+    };
+    
+    // Add take (limit) if specified
+    if (limit) {
+      const limitNumber = parseInt(limit, 10);
+      if (!isNaN(limitNumber) && limitNumber > 0) {
+        queryOptions.take = limitNumber;
+      }
+    }
+    
+    const content = await prisma.content.findMany(queryOptions);
     
     return NextResponse.json(content);
   } catch (error) {

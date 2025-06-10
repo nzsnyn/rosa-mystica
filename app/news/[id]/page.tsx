@@ -2,6 +2,7 @@
 
 import MainLayout from "@/components/layouts/MainLayout";
 import Navbar from "@/components/navbar/Navbar";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
@@ -89,17 +90,7 @@ const NewsDetailPage = () => {
           </Link>
 
           <article className="bg-white rounded-lg shadow-md overflow-hidden">
-            {article.path && (
-              <div className="relative h-64 md:h-96">
-                <Image
-                  src={article.path}
-                  alt={article.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-              <div className="p-6 md:p-8">
+            <div className="p-6 md:p-8">
               <div className="text-sm text-gray-500 mb-4">
                 {new Date(article.createdAt).toLocaleDateString('id-ID', {
                   year: 'numeric',
@@ -111,6 +102,18 @@ const NewsDetailPage = () => {
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 {article.title}
               </h1>
+
+              {/* Gambar utama di bawah judul */}
+              {article.path && (
+                <div className="relative h-64 md:h-96 mb-6">
+                  <Image
+                    src={article.path}
+                    alt={article.title}
+                    fill
+                    className="object-cover rounded-lg"
+                  />
+                </div>
+              )}
               
               {article.excerpt && (
                 <div className="text-xl text-gray-600 mb-6 font-medium">
@@ -124,13 +127,9 @@ const NewsDetailPage = () => {
                 </div>
               )}
               
-              <div className="prose prose-lg max-w-none">
-                {article.content?.split('\n').map((paragraph: string, index: number) => (
-                  <p key={index} className="mb-4 text-gray-700 leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+              {article.content && (
+                <MarkdownRenderer content={article.content} />
+              )}
             </div>
           </article>
         </div>

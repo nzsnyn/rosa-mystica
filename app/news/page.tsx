@@ -2,6 +2,7 @@
 
 import MainLayout from "@/components/layouts/MainLayout";
 import Navbar from "@/components/navbar/Navbar";
+import { getMarkdownPreview, getFirstImageFromMarkdown } from "@/lib/markdown-utils";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -54,56 +55,61 @@ const NewsPage = () => {
             </div>
           ) : (
             <div className="space-y-8">
-              {articles.map((article: ContentType) => (
-                <article key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <div className="md:flex">
-                    {article.path && (
-                      <div className="md:w-1/3">
-                        <div className="relative h-48 md:h-full">
-                          <Image
-                            src={article.path}
-                            alt={article.title}
-                            fill
-                            className="object-cover"
-                          />
+              {articles.map((article: ContentType) => {
+                // Get first image from markdown content if no main image
+                const displayImage = article.path || getFirstImageFromMarkdown(article.content || '');
+                const contentPreview = getMarkdownPreview(article.content || '', 300);
+                
+                return (
+                  <article key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div className="md:flex">
+                      {displayImage && (
+                        <div className="md:w-1/3">
+                          <div className="relative h-48 md:h-full">
+                            <Image
+                              src={displayImage}
+                              alt={article.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    <div className={`p-6 ${article.path ? 'md:w-2/3' : 'w-full'}`}>
-                      <div className="text-sm text-gray-500 mb-2">
-                        {new Date(article.createdAt).toLocaleDateString('id-ID', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                        {article.title}
-                      </h2>
-                      {article.excerpt && (
-                        <p className="text-gray-600 mb-4">
-                          {article.excerpt}
-                        </p>
                       )}
-                      {article.description && !article.excerpt && (
-                        <p className="text-gray-600 mb-4">
-                          {article.description}
-                        </p>
-                      )}
-                      <div className="text-gray-700 line-clamp-3">
-                        {article.content ? article.content.substring(0, 300) : ''}
-                        {article.content && article.content.length > 300 && '...'}
+                      <div className={`p-6 ${displayImage ? 'md:w-2/3' : 'w-full'}`}>
+                        <div className="text-sm text-gray-500 mb-2">
+                          {new Date(article.createdAt).toLocaleDateString('id-ID', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                          {article.title}
+                        </h2>
+                        {article.excerpt && (
+                          <p className="text-gray-600 mb-4">
+                            {article.excerpt}
+                          </p>
+                        )}
+                        {article.description && !article.excerpt && (
+                          <p className="text-gray-600 mb-4">
+                            {article.description}
+                          </p>
+                        )}
+                        <div className="text-gray-700 line-clamp-3">
+                          {contentPreview}
+                        </div>
+                        <Link
+                          href={`/news/${article.id}`}
+                          className="inline-block mt-4 text-blue-600 hover:text-blue-800 font-medium"
+                        >
+                          Baca selengkapnya →
+                        </Link>
                       </div>
-                      <Link
-                        href={`/news/${article.id}`}
-                        className="inline-block mt-4 text-blue-600 hover:text-blue-800 font-medium"
-                      >
-                        Baca selengkapnya →
-                      </Link>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import AuthGuard from "@/components/auth/AuthGuard";
+import LocalImageUploader from "@/components/LocalImageUploader";
 
 interface FormData {
   title: string;
@@ -10,6 +11,12 @@ interface FormData {
   content: string;
   excerpt: string;
   published: boolean;
+}
+
+interface UploadedImage {
+  id: string;
+  path: string;
+  filename: string;
 }
 
 function CreateContentForm() {
@@ -28,6 +35,7 @@ function CreateContentForm() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
 
   useEffect(() => {
     if (!contentType || !["IMAGE", "ARTICLE"].includes(contentType)) {
@@ -64,6 +72,27 @@ function CreateContentForm() {
       };
       reader.readAsDataURL(selectedFile);
     }
+  };
+
+  const handleImageUploadComplete = (contentId: string, path: string, filename: string) => {
+    const newImage: UploadedImage = {
+      id: contentId,
+      path: path,
+      filename: filename
+    };
+    setUploadedImages(prev => [...prev, newImage]);
+  };
+
+  const insertImageToContent = (imagePath: string) => {
+    const imageMarkdown = `![Gambar](${imagePath})`;
+    setFormData(prev => ({
+      ...prev,
+      content: prev.content + '\n\n' + imageMarkdown
+    }));
+  };
+
+  const removeUploadedImage = (imageId: string) => {
+    setUploadedImages(prev => prev.filter(img => img.id !== imageId));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -262,6 +291,62 @@ function CreateContentForm() {
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
                   placeholder="Tulis konten artikel Anda di sini..."
                 />
+              </div>
+
+              {/* Upload Gambar untuk Artikel */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Upload Gambar untuk Artikel
+                </label>
+                <p className="text-sm text-gray-500 mb-4">
+                  Upload gambar yang akan digunakan dalam artikel. Gambar akan otomatis ditambahkan ke konten artikel.
+                </p>
+                <LocalImageUploader 
+                  onUploadComplete={handleImageUploadComplete}
+                  className="mb-4"
+                />
+                
+                {/* Daftar gambar yang sudah diupload */}
+                {uploadedImages.length > 0 && (
+                  <div className="space-y-4">
+                    <h4 className="text-sm font-medium text-gray-700">Gambar yang telah diupload:</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {uploadedImages.map((image) => (
+                        <div key={image.id} className="border rounded-lg p-4 bg-gray-50">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <img
+                                src={image.path}
+                                alt={image.filename}
+                                className="w-full h-32 object-cover rounded mb-2"
+                              />
+                              <p className="text-sm font-medium text-gray-900 truncate">
+                                {image.filename}
+                              </p>
+                              <p className="text-xs text-gray-500">{image.path}</p>
+                            </div>
+                            <div className="flex flex-col space-y-2 ml-4">
+                              <button
+                                type="button"
+                                onClick={() => insertImageToContent(image.path)}
+                                className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700"
+                              >
+                                Insert ke Artikel
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => removeUploadedImage(image.id)}
+                                className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700"
+                              >
+                                Hapus
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           )}
