@@ -11,7 +11,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { BsPeople } from "react-icons/bs";
 import { MdOutlineMessage } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
-import Image from "next/image";
+import Link from "next/link";
 
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/navbar/Footer";
@@ -119,22 +119,25 @@ export default function Home() {
 
   const cardItems = [
     {
-      icon: RiHistoryLine,
+      icon: PiTargetLight,
       title: "Visi Misi",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
+        "Mengenal visi dan misi Gua Maria Rosa Mystica dalam melayani umat beriman.",
+      href: "/visi-misi"
+    },
+    {
+      icon: RiHistoryLine,
+      title: "Sejarah",
+      description:
+        "Sejarah perjalanan dan perkembangan Gua Maria Rosa Mystica Tuntang.",
+      href: "/sejarah"
     },
     {
       icon: LuCalendarClock,
-      title: "Sejarah",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    },
-    {
-      icon: PiTargetLight,
       title: "Jadwal Kegiatan",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
+        "Jadwal misa dan kegiatan rohani yang diadakan di Gua Maria Rosa Mystica.",
+      href: "/jadwal"
     },
   ];
   return (
@@ -170,14 +173,15 @@ export default function Home() {
         {cardItems.map((item, index) => {
           const IconComponent = item.icon;
           return (
-            <div
+            <Link
               key={index}
-              className="flex flex-col items-center justify-center bg-opacity-90 w-72 h-72 rounded-lg shadow-lg font-cormorant"
+              href={item.href}
+              className="flex flex-col items-center justify-center bg-white bg-opacity-90 w-72 h-72 rounded-lg shadow-lg font-cormorant hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border border-gray-100 hover:border-[#8B5E83]"
             >
-              <IconComponent className="text-6xl" />
-              <h2 className="font-bold text-xl mt-4">{item.title}</h2>
-              <p className="text-center mt-2 font-lora">{item.description}</p>
-            </div>
+              <IconComponent className="text-6xl text-[#8B5E83] mb-4" />
+              <h2 className="font-bold text-xl text-[#8B5E83] mb-2">{item.title}</h2>
+              <p className="text-center font-lora text-gray-700 px-4 leading-relaxed">{item.description}</p>
+            </Link>
           );
         })}
       </div>
