@@ -58,7 +58,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
                 <div className='w-full lg:w-1/3 xl:w-1/4 mt-8 lg:mt-0'>
                     {/* Modern Header dengan Gradient */}
                     <div className='relative w-full overflow-hidden rounded-t-2xl bg-gradient-to-r from-[#8B5E83] to-[#D4AF37] shadow-lg'>
-                        <div className='absolute inset-0 bg-black bg-opacity-10'></div>
+                        <div className='absolute inset-0 bg-opacity-10'></div>
                         <div className='relative px-6 py-8 text-center'>
                             <div className='inline-flex items-center justify-center w-12 h-12 mb-3 bg-white bg-opacity-20 rounded-full'>
                                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

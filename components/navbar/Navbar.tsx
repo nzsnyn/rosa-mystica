@@ -99,7 +99,7 @@ const Navbar = () => {
           <div className="hidden md:block h-[100px] md:h-[120px] lg:h-[160px] w-[6px] md:w-[8px] lg:w-[12px] bg-amber-50"></div>
           <div className="text-center md:text-left mt-4 md:mt-0">
             <h1 className="font-bold text-slate-50 text-4xl md:text-5xl lg:text-7xl">
-              Gua Maria <br /> Rosa Mystica <br />
+              Gua Maria <br /> Sancta Rosa <br /> Mystica <br />
               <span className="text-xl md:text-2xl lg:text-3xl">Tuntang</span>
             </h1>
           </div>
