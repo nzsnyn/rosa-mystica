@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
+import Image from "next/image";
 
 const Navbar = () => {
   const menuItems = ["Home", "Visi Misi", "Sejarah", "Jadwal", "Tim Pengelola", "Berita"];
@@ -95,7 +96,15 @@ const Navbar = () => {
       {/* Header Content */}
       <div className="mt-4 md:mt-8 lg:mt-12">
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-start md:ml-10 lg:ml-56 gap-x-4 lg:gap-x-8 px-4 md:px-0">
-          <div className="circle w-[120px] h-[120px] md:w-[150px] md:h-[150px] lg:w-[197px] lg:h-[197px] bg-[#D4AF37] rounded-full"></div>
+          <div className="circle w-[120px] h-[120px] md:w-[150px] md:h-[150px] lg:w-[197px] lg:h-[197px] bg-[#D4AF37] rounded-full flex items-center justify-center overflow-hidden">
+            <Image 
+              src={"/logo.png"} 
+              alt="logo" 
+              width={197} 
+              height={197}
+              className="w-full h-full object-cover rounded-full"
+            />
+          </div>
           <div className="hidden md:block h-[100px] md:h-[120px] lg:h-[160px] w-[6px] md:w-[8px] lg:w-[12px] bg-amber-50"></div>
           <div className="text-center md:text-left mt-4 md:mt-0">
             <h1 className="font-bold text-slate-50 text-4xl md:text-5xl lg:text-7xl">
