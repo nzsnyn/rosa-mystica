@@ -52,7 +52,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, currentIndex]);
+  }, [isOpen, currentIndex, images.length, onClose, onNavigate]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -114,7 +114,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   return (
     <div
       ref={modalRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 bg-opacity-90"
       onClick={handleBackdropClick}
     >
       {/* Close button */}
@@ -155,6 +155,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}      >
         <ErrorBoundaryImage
+          key={currentImage.id}
           src={getFullSizeUrl(currentImage.path, currentImage.imagekitPath)}
           alt={currentImage.title}
           className="max-w-full max-h-full object-contain"
