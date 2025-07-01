@@ -186,42 +186,9 @@ export default function Home() {
         })}
       </div>
 
-      {/* Header Tim */}
-      <div
-        className="w-full h-auto min-h-[300px] md:h-[400px] lg:h-[525px] bg-[url(/header_tim.png)] bg-no-repeat bg-cover bg-blend-soft-light relative mt-16 flex flex-col justify-between"
-        style={{ backgroundColor: "rgba(139, 94, 131, 0.4)" }}
-      >
-        <div>
-          <h1 className="font-cormorant text-white text-center text-4xl font-bold pt-10">
-            Tim Pengelola
-          </h1>
-
-          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16 lg:gap-24 mt-10 px-4">
-            {Array(5)
-              .fill(null)
-              .map((_, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  <div className="circle w-[120px] h-[120px] md:w-[150px] md:h-[150px] lg:w-[197px] lg:h-[197px] bg-slate-200 rounded-full flex items-center justify-center text-center shadow-md">
-                    Foto {index + 1}
-                  </div>
-                  <h3 className="mt-4 font-cormorant font-bold text-white text-xl">
-                    Name {index + 1}
-                  </h3>
-                  <p className="text-white text-center mt-2 font-lora text-sm md:text-base">
-                    Position {index + 1}
-                  </p>
-                </div>
-              ))}
-          </div>
-        </div>
-        <h1 className="text-center font-bold font-cormorant text-white text-2xl mb-6">
-          See more
-        </h1>
-      </div>
-
       {/* Dokumentasi */}
       <h1 className="text-center font-cormorant font-bold text-5xl my-14">
-        Dokumentasi Gua Maria Rosa Mystica
+        Dokumentasi
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-11/12 mx-auto mt-10 mb-20">
         {imagesLoading ? (

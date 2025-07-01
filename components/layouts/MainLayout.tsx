@@ -60,10 +60,14 @@ const MainLayout = ({ children }: MainLayoutProps) => {
                     <div className='relative w-full overflow-hidden rounded-t-2xl bg-gradient-to-r from-[#8B5E83] to-[#D4AF37] shadow-lg'>
                         <div className='absolute inset-0 bg-opacity-10'></div>
                         <div className='relative px-6 py-8 text-center'>
-                            <div className='inline-flex items-center justify-center w-12 h-12 mb-3 bg-white bg-opacity-20 rounded-full'>
-                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3v6m0 0l-3-3m3 3l3-3" />
-                                </svg>
+                            <div className='inline-flex items-center justify-center w-12 h-12 mb-3 bg-white bg-opacity-20 rounded-full overflow-hidden'>
+                                <Image
+                                    src="/logo.png"
+                                    alt="Rosa Mystica Logo"
+                                    width={32}
+                                    height={32}
+                                    className="w-8 h-8 object-cover rounded-full"
+                                />
                             </div>
                             <h2 className='font-lora text-2xl md:text-3xl font-bold text-white drop-shadow-sm'>
                                 Berita Terbaru
